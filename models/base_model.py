@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 """base class model to be inherited by other classes"""
 
+from models.engine.file_storage import FileStorage
 import uuid
 from datetime import datetime
+
+
+storage = FileStorage()
+storage.reload()
+
 
 class BaseModel:
     def __init__(self, *args, **kwargs):
@@ -12,12 +18,12 @@ class BaseModel:
         self.updated_at = datetime.now()
 
         if kwargs:
-            for key,value in kwargs.items():
+            for key, value in kwargs.items():
                 if key != "__class__":
                     setattr(self, key, value)
                 if key == "created_at" or key == "updated_at":
-                 setattr(self, key, datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
-                    
+                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                setattr(self, key, value)     
         else:
              self.id = str(uuid.uuid4())
              self.created_at = datetime.now()
@@ -40,5 +46,3 @@ class BaseModel:
         dict_rep["updated_at"] = self.updated_at.strftime(
                 "%Y-%m-%dT%H:%M:%S.%f")
         return (dict_rep)
-
-
