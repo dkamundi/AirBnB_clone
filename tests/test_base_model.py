@@ -42,6 +42,23 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(base_dict['__class__'], type(self.base).__name__)
         self.assertIsInstance(base_dict['created_at'], str)
         self.assertIsInstance(base_dict['updated_at'], str)
+        self.assertEqual(base_dict['created_at'], self.base.created_at.strftime("%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(base_dict['updated_at'], self.base.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%f"))
+
+    def test_init_with_kwargs(self):
+        """Test instance attributes of BaseModel with kwargs."""
+        kwargs = {"id",:"123","created_at":"2023-05-14T00:00.000000","update_at": "2023-05-14T00:00.000000"}
+        base = BaseModel(**kwargs)
+        self.assertEqual(base.id,kwargs["id"])
+        self.assertEqual(base.created_at, datetime.strptime(kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(base.updated_at, datetime.strptime(kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f"))
+
+    def test_init_without_kwargs(self):
+        """Test the instance attributes of BaseModel without kwargs."""
+        base = BaseModel()
+        self.assertIsInstance(base.id, str)
+        self.assertIsInstance(base.created_at, datetime)
+        self.assertIsInstance(base.updated_at, datetime)
 
     def test_to_dict_with_different_format(self):
         """Test to_dict method of BaseModel with different format."""
