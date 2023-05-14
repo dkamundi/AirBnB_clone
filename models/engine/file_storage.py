@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """file storage module"""
+
 import json
+import models
+import os
 
 
 class FileStorage:
@@ -30,13 +33,15 @@ class FileStorage:
 
     def reload(self):
         """deserializes the JSON file to __objects."""
-        try:
+        if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
-                obj_dict = json.load(f)
-            for key, value in obj_dict.items():
-                class_name, obj_id = key.split(".")
-                obj_cls = eval(class_name)
-                obj_instance = obj_cls(**value)
-                FileStorage.__objects[key] = obj_instance
-        except:
-            pass
+                objs = json.load(f)
+                for k, v in objs.items():
+                    class_name = v['__class__']
+                    if class_name == 'BaseModel':
+                        obj = BaseModel(**v)
+                    elif class_name == 'User':
+                        obj = User(**v)
+                    else:
+                        continue
+                    FileStorage.__objects[k] = obj

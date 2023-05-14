@@ -2,6 +2,7 @@
 """Console"""
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -19,6 +20,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance = eval(arg)()
             new_instance.save()
             print(new_instance.id)
+
         except NameError:
             print("** class doesn't exist **")
 
