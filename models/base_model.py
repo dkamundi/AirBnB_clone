@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""base class model to be inherited by other classes"""
+
 import uuid
 from datetime import datetime
 
@@ -19,9 +21,12 @@ class BaseModel:
 
     def to_dict(self):
         """Return a dictionary representation of the BaseModel object."""
-        result = self.__dict__.copy()
-        result["__class__"] = type(self).__name__
-        result["created_at"] = self.created_at.isoformat()
-        result["updated_at"] = self.updated_at.isoformat()
-        return result
+        dict_rep = dict(self.__dict__)
+        dict_rep["__class__"] = self.__class__.__name__
+        dict_rep["created_at"] = self.created_at.strftime(
+                "%Y-%m-%dT%H:%M:%S.%f")
+        dict_rep["updated_at"] = self.updated_at.strftime(
+                "%Y-%m-%dT%H:%M:%S.%f")
+        return (dict_rep)
+
 
