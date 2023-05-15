@@ -56,27 +56,32 @@ class HBNBCommand(cmd.Cmd):
         """
         args = shlex.split(arg)
         if len(arg) == 0:
-            print(HBNBCommand.__errors[0])
+            print("** class name missing **")
             return
-        elif len(arg) == 1:
-            print(HBNBCommand.__errors[2])
+        if len(args) == 1:
+            print("** instance id missing **")
             return
+        if len(args) == 2:
+            print("** attribute name missing **")
+            return
+        if len(args) == 3:
+            print("** value missing **")
+            return
+
         storage = FileStorage()
         storage.reload()
         obj_dict = storage.all()
         try:
-            eval(arg[0])()
+            eval(args[0])()
         except NameError:
-            print(HBNBCommand.__errors[1])
+            print("** class doesn't exist **")
             return
-
-        k = arg[0] + "." + args[1]
-        k = arg[0] + "." + args[1]
+        k = args[0] + "." + args[1]
         try:
-            val = obj_dict[k]
-            print(val)
+            value = obj_dict[k]
+            print(value)
         except KeyError:
-            print("** **")
+            print("** no instance found **")
 
     def do_destroy(self, arg):
         """
