@@ -6,13 +6,19 @@ import cmd
 import shlex
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
-from models import storage
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Reviews
+from models.state import State
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     """
     Command interpreter class
     """
+
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
@@ -100,19 +106,23 @@ class HBNBCommand(cmd.Cmd):
             if len(args) < 2:
                 print("** instance id missing **")
             else:
-                objs = storage.all(cls)
+                storage.reload()
+                objs = storage.all()
                 key = "{}.{}".format(args[0], args[1])
                 if key in objs:
                     del objs[key]
                     storage.save()
                 else:
                     print("** no instance found **")
+        storage.save()
 
     def do_all(self, arg):
         """
         Prints all string representation of all instances based or not on the
         class name.
         """
+        storage = FileStorage()
+        storage.reload()
         objects = storage.all()
         if not arg:
             print([str(objs[k]) for k in objs])
@@ -128,6 +138,8 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the class name and id by adding or updating
         attribute (save the change into the JSON file).
         """
+        storage = FileStorage()
+        storage.reload
         if not arg:
             print("** class name missing **")
         else:

@@ -37,10 +37,8 @@ class FileStorage:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
                 objs = json.load(f)
                 for key, value in serialized_objects.items():
-                    class_name, obj_id = key.split('.')
-                    cls_name = value["__class__"]
-                    cls = eval(cls_name)
-                    obj = cls(**value)
-                    self.__objects[key] = obj
+                    class_name = value["__class__"]
+                    class_name = models.my_classes[class_name]
+                    FileStorage.__objects[key] = class_name(**value)
         except FileNotFoundError:
             pass
