@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         if len(args) == 2:
-            print("** attribute name missing **")
+            print("** no instance found **")
             return
         if len(args) == 3:
             print("** value missing **")
@@ -113,7 +113,7 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances based or not on the
         class name.
         """
-        objs = storage.all()
+        objects = storage.all()
         if not arg:
             print([str(objs[k]) for k in objs])
         else:
@@ -141,5 +141,25 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
                 return
             objs = storage.all(cls)
+
+    def default(self, arg):
+        '''
+            Catches all the function names that are not expicitly defined.
+        '''
+        args = shlex.split(arg)
+        functions = {"all": self.do_all, "update": self.do_update,
+                     "show": self.do_show, "count": self.do_count,
+                     "destroy": self.do_destroy, "update": self.do_update}
+        args = (args.replace("(", ".").replace(")", ".")
+                .replace('"', "").replace(",", "").split("."))
+
+        try:
+            cmd_arg = args[0] + " " + args[2]
+            func = functions[args[1]]
+            func(cmd_arg)
+        except NameError:
+            print("*** Unknown syntax:", args[0])
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
