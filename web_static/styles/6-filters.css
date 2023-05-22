@@ -1,4 +1,4 @@
-.filter {
+.filters {
 	height: 70px;
 	width: 100%;
 	border: solid 1px #DDDDDD;
@@ -19,7 +19,7 @@ button {
 	color: #FFFFFF;
 }
 
-button.hover {
+button:hover {
 	opacity: 0.9;
 }
 
@@ -32,7 +32,6 @@ button.hover {
 	height: 100%;
 	width: 25%;
 }
-
 .locations h3,
 .locations h4,
 .amenities h3,
@@ -51,4 +50,28 @@ h4 {
 	font-weight: 400;
 	font-size: 14px;
 }
+ul {
+	list-style: none;
+	padding-left: 0.7rem;
+	margin: 0;
+}
 
+.inner-ul {
+	font-size: 1rem;
+}
+.popup {
+	visibility: hidden;
+	padding: 0.5rem;
+	margin: 1rem auto auto auto;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	list-style: none;
+	background-color: #FAFAFA;
+}
+
+.locations:hover .popup{
+	visibility: visible;
+}
+.amenities:hover .popup {
+	visibility: visible;
+}
