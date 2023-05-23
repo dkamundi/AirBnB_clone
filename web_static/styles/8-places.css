@@ -8,7 +8,7 @@
 	font-size: 30px;
 }
 article h2 {
-	font size: 30px;
+	font-size: 30px;
 	text-align: center;
 }
 .article-container {
@@ -59,10 +59,10 @@ article {
 	justify-content: space-evenly;
 	align-items: center;
 	height: 80px;
-	width: 100px;
+	width: 100%;
 	border-top: 1px solid #DDDDDD;
 	border-bottom: 1px solid #DDDDDD;
-}
+  }
 .max_guest p,
 .number_rooms p,
 .number_bathrooms p{
@@ -89,7 +89,7 @@ article {
 .number_bathrooms {
 	width: 100px;
 	background-image: url("../images/icon_bath.png");
-	background-repeat: no repeat;
+	background-repeat: no-repeat;
 }
 
 .user {
